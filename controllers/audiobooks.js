@@ -119,37 +119,37 @@ module.exports.deleteAudiobook = async (req, res) => {
 
 
 // Define the controller function
-module.exports.filterAndSortAudiobooks = async (req, res) => {
-    try {
-        // Initialize filter and sort objects
-        let filter = {};
-        let sort = {};
+// module.exports.filterAndSortAudiobooks = async (req, res) => {
+//     try {
+//         // Initialize filter and sort objects
+//         let filter = {};
+//         let sort = {};
 
-        // Log the request parameters for debugging
-        console.log("req", req);
+//         // Log the request parameters for debugging
+//         console.log("req", req);
 
-        // Apply filters based on query parameters
-        if (req.query.genre) {
-            filter.genre = req.query.genre;
-        }
-        if (req.query.title) {
-            filter.title = new RegExp(req.query.title, 'i'); // Case-insensitive search
-        }
+//         // Apply filters based on query parameters
+//         if (req.query.genre) {
+//             filter.genre = req.query.genre;
+//         }
+//         if (req.query.title) {
+//             filter.title = new RegExp(req.query.title, 'i'); // Case-insensitive search
+//         }
 
-        // Apply sorting based on query parameters
-        if (req.query.sort === 'rating') {
-            sort.rating = -1; // Sort by rating in descending order
-        }
+//         // Apply sorting based on query parameters
+//         if (req.query.sort === 'rating') {
+//             sort.rating = -1; // Sort by rating in descending order
+//         }
 
-        // Retrieve filtered and sorted audiobooks from the database
-        const audiobooks = await Audiobook.find(filter).sort(sort).populate('popupText');
+//         // Retrieve filtered and sorted audiobooks from the database
+//         const audiobooks = await Audiobook.find(filter).sort(sort).populate('popupText');
 
-        // Render the audiobooks index page with the retrieved data
-        res.render('audiobooks/index', { audiobooks });
-    } catch (error) {
-        // Handle any errors that occur during execution
-        console.error('Error in filterAndSortAudiobooks:', error);
-        // Render an error page or redirect to a different route as needed
-        res.status(500).send('Internal Server Error');
-    }
-};
+//         // Render the audiobooks index page with the retrieved data
+//         res.render('audiobooks/index', { audiobooks });
+//     } catch (error) {
+//         // Handle any errors that occur during execution
+//         console.error('Error in filterAndSortAudiobooks:', error);
+//         // Render an error page or redirect to a different route as needed
+//         res.status(500).send('Internal Server Error');
+//     }
+// };
