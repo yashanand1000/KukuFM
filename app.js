@@ -17,8 +17,10 @@ const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const audiobooksRoutes = require('./routes/audiobooks');
 const reviewRoutes = require('./routes/reviews');
+const MongoDBStore = require('connect-mongo');
 
 const dbUrl = process.env.DB_URL ||'mongodb://0.0.0.0:27017/audiobook-app';
+const secret = 'thisshouldbeabettersecret'
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -43,12 +45,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    store,
+    name: 'session',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -96,5 +113,4 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
     console.log('Serving on port 3000')
 })
-
 
