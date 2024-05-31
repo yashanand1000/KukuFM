@@ -33,7 +33,9 @@ Follow these steps to run the application locally:
     Create a `.env` file in the root directory and add your MongoDB connection string and other necessary environment variables:
     ```plaintext
     DB_URL=your_mongodb_connection_string
-    SECRET=your_secret_key
+    CLOUDINARY_CLOUD_NAME = your_cloudinary_name
+    CLOUDINARY_KEY = your_cloudinarykey_
+    CLOUDINARY_SECRET = your_cloudinary_secret_key
     ```
 
 4. **Seed the database**:
