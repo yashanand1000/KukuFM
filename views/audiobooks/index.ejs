@@ -1,73 +1,120 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/stars.css">
-<div id="cluster-map"></div>
+<div id="cluster-map" class="mb-4"></div>
+
 <div class="container">
-    <!-- Filter and Sort Form -->
-    <form id="filterForm" action="/audiobooks" method="GET" class="mb-4">
-        <div class="row">
-            <div class="col-md-2">
-                <label for="genre">Genre:</label>
-                <select name="genre" id="genre" class="form-control">
-                    <option value="">All</option>
-                    <option value="Fiction">Fiction</option>
-                    <option value="Non-fiction">Non-fiction</option>
-                    <option value="Adventurous">Adventurous</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="title">Title:</label>
-                <input type="text" name="title" id="title" class="form-control" placeholder="Title">
-            </div>
-            <div class="col-md-2">
-                <label for="sort">Sort By Rating:</label>
-                <select name="sort" id="sort" class="form-control">
-                    <option value="">None</option>
-                    <option value="rating-asc">High to Low</option>
-                    <option value="rating-des">Low to High</option>
-                    <!-- Add more sort options as needed -->
-                </select>
-            </div>
-            <div class="col-md-3 mt-auto">
-                <button type="submit" class="btn btn-primary btn-block">Filter & Sort</button>
-            </div>
-        </div>
-    </form>
-
-    <h1>All Audiobooks</h1>
-
-    <!-- Audiobook Cards -->
     <div class="row">
-        <% for (let audiobook of audiobooks) { %>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <% if (audiobook.images.length) { %>
-                <img class="card-img-top" alt="Audiobook Cover" src="<%= audiobook.images[0].url %>">
-                <% if (audiobook.averageRating !== 'No ratings yet') { %>
-                <div class="star-rating">
-                    <% for (let i = 0; i < Math.floor(audiobook.averageRating); i++) { %>
-                    <i class="fas fa-star text-warning"></i>
-                    <% } %>
-                    <% if (audiobook.averageRating % 1 !== 0) { %>
-                    <i class="fas fa-star-half-alt text-warning"></i>
-                    <% } %>
-                </div>
-                <% } %>
-                <% } else { %>
-                <!-- Default image -->
-                <% } %>
+        <!-- Filter and Sort Form Column -->
+        <div class="col-md-3 mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><%= audiobook.title %> </h5>
-                    <p class="card-text"><%= audiobook.description %></p>
-                    <p class="card-text border border-primary rounded"><small class="text-muted">Genre: <%= audiobook.genre %></small></p>
-                    <a class="btn btn-primary btn-block" href="/audiobooks/<%= audiobook._id %>">View <%= audiobook.title %></a>
+                    <form id="filterForm" action="/audiobooks" method="GET">
+                        <h3 class="card-title">Search and Filter</h3>
+                        <div class="mt-3">
+                            <label class="form-label" for="title">Title</label>
+                            <input class="form-control" type="text" placeholder="Title" name="title" id="title" value="">
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="genre">Genre</label>
+                            <select name="genre" id="genre" class="form-control">
+                                <option value="">All</option>
+                                <option value="Fiction">Fiction</option>
+                                <option value="Non-fiction">Non-fiction</option>
+                                <option value="Adventurous">Adventurous</option>
+                            </select>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="sort">Sort By Rating</label>
+                            <select name="sort" id="sort" class="form-control">
+                                <option value="">None</option>
+                                <option value="rating-asc">High to Low</option>
+                                <option value="rating-des">Low to High</option>
+                            </select>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-evenly">
+                            <a href="/audiobooks" class="card-link btn btn-danger" style="flex: 1;">Reset</a>
+                            <input class="card-link btn btn-success" style="flex: 1;" type="submit" value="Filter & Sort">
+                        </div>
+                    </form>
                 </div>
-                <% if (audiobook.averageRating !== 'No ratings yet') { %>
-                <h4 class="ms-auto"><i class="fa-solid fa-flip fa-star" style="color: #ffd700;"></i>
-                    <%= audiobook.avgRating %> (<%= audiobook.averageRating %>) ⭐
-                </h4>
+            </div>
+        </div>
+
+        <!-- Audiobooks Column -->
+        <div class="col-md-9">
+            <h1 class="mb-4">All Audiobooks</h1>
+            <div class="row">
+                <% for (let audiobook of audiobooks.slice(0, 15)) { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 view" style="background-image: url(<%= audiobook.images[0].url %>);">
+                        <div class="d-flex flex-column h-100 justify-content-between">
+                            <div class="card-body text-white d-flex flex-column">
+                                <% if (audiobook.averageRating !== 'No ratings yet') { %>
+                                <h4 class="ms-auto"><i class="fa-solid fa-flip fa-star" style="color: #ffd700;" aria-hidden="true"></i>
+                                    <%= audiobook.avgRating %> (<%= audiobook.averageRating %>) ⭐
+                                </h4>
+                                <% } else { %>
+                                <h4 class="ms-auto">No ratings yet</h4>
+                                <% } %>
+                                <h1 class="card-title"><%= audiobook.title %></h1>
+                                <div class="card-text">
+                                    <small class="text-muted"><%= audiobook.genre %></small>
+                                    <p class="mt-3">
+                                        <b>Price:</b> $<%= audiobook.price %>
+                                    </p>
+                                    <p class="mt-3 text-justify"><%= audiobook.description %></p>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="/audiobooks/<%= audiobook._id %>" class="card-link btn btn-outline-light btn-sm" title="View Audiobook">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <% } %>
             </div>
         </div>
-        <% } %>
     </div>
-    
+</div>
+
+<style>
+    .view {
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .view .card-body, .view .card-footer {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .view .card-link {
+        color: #fff;
+        border-color: #fff;
+    }
+
+    .view .card-link:hover {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .row {
+        margin-bottom: 20px; /* Add margin-bottom to rows */
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .card .card-body {
+        padding: 15px;
+    }
+
+    @media (max-width: 767.98px) {
+        .col-md-3, .col-md-9 {
+            width: 100%;
+        }
+    }
+</style>
