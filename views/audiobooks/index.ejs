@@ -44,7 +44,7 @@
         <div class="col-md-9">
             <h1 class="mb-4">All Audiobooks</h1>
             <div class="row">
-                <% for (let audiobook of audiobooks.slice(0, 15)) { %>
+                <% for (let audiobook of audiobooks) { %>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 view" style="background-image: url(<%= audiobook.images[0].url %>);">
                         <div class="d-flex flex-column h-100 justify-content-between">
@@ -73,6 +73,27 @@
                 </div>
                 <% } %>
             </div>
+
+            <div class="page-header"></div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <% if (current > 0) { %>
+                    <button class="page-arrow" onclick="scrollPagination('left')">&laquo; Previous</button>
+                <% } %>
+                <div class="pagination-wrapper">
+                    <ul class="pagination">
+                        <% for (let i = 1; i <= pages; i++) { %>
+                        <li class="<%= current === i ? 'active' : '' %>"><a href="?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                    </ul>
+                </div>
+                <% if (current < pages) { %>
+                    <!-- <li><a href="?page=<%= current + 1 %>">&raquo;</a></li> -->
+                    <button class="page-arrow" onclick="scrollPagination('right')">Next &raquo;</button>
+                <% } %>
+            </div>
+
         </div>
     </div>
 </div>
@@ -117,4 +138,99 @@
             width: 100%;
         }
     }
+
+    .page-header {
+    margin: 5px 0;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+    }
+
+    .pagination-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .pagination-wrapper {
+        overflow-x: auto;
+        display: flex;
+        white-space: nowrap;
+        flex-grow: 1;
+    }
+
+    .pagination {
+    display: flex;
+    list-style: none;
+    }
+    .pagination li {
+    flex: 1;
+    margin: 0px 5px;
+    background: #dde1e7;
+    border-radius: 3px;
+    box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+    }
+    .pagination li a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #4d3252;
+    height: 45px;
+    width: 45px;
+    display: block;
+    line-height: 45px;
+    }
+    /* .pagination li:first-child a {
+    width: 120px;
+    }
+    .pagination li:last-child a {
+    width: 100px;
+    } */
+    .pagination li.active {
+    box-shadow: inset -3px -3px 7px #ffffff73,
+        inset 3px 3px 5px rgba(94, 104, 121, 0.288);
+    }
+    .pagination li.active a {
+    font-size: 17px;
+    color: #6f6cde;
+    }
+    /* .pagination li:first-child {
+    margin: 0 15px 0 0;
+    }
+    .pagination li:last-child {
+    margin: 0 0 0 15px;
+    } */
+    .page-arrow {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin: 0 10px;
+        border-radius: 3px;
+        box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+    }
+    .page-arrow:hover {
+        background-color: #0056b3;
+    }
 </style>
+
+<script>
+    function scrollPagination(direction) {
+        const paginationWrapper = document.querySelector('.pagination-wrapper');
+        const scrollAmount = 100;
+        if (direction === 'left') {
+            paginationWrapper.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        } else {
+            paginationWrapper.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
+
