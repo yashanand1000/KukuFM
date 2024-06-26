@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/stars.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5 bg-white mt-0">
     <div class="row">
         <!-- Audiobook Information Section -->
         <div class="col-lg-4 col-md-6 col-sm-12 mb-3 d-inline-flex">
@@ -10,7 +10,7 @@
                 <div class="card-header text-center">
                     <h4>Audiobook Information</h4>
                 </div>
-                <img src="<%= audiobook.images.length ? audiobook.images[0].url : '/default-image.jpg' %>" class="card-img-top" alt="Audiobook Image">
+                <img src="/images/poster 1.png" alt="images/poster 1.png" class="card-img-top custom-height">
                 <div class="card-body">
                     <h5 class="card-title"><%= audiobook.title %></h5>
                     <p class="card-text"><%= audiobook.description %></p>
@@ -138,5 +138,12 @@
     .card-header i {
         margin-right: 10px;
     }
+    .custom-height{
+        height: 400px;
+    }
+    body{
+        background: white;
+    }
 </style>
+
 

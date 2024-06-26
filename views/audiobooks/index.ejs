@@ -1,236 +1,655 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="/stylesheets/stars.css">
-<div id="cluster-map" class="mb-4"></div>
 
-<div class="container">
-    <div class="row">
-        <!-- Filter and Sort Form Column -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <form id="filterForm" action="/audiobooks" method="GET">
-                        <h3 class="card-title">Search and Filter</h3>
-                        <div class="mt-3">
-                            <label class="form-label" for="title">Title</label>
-                            <input class="form-control" type="text" placeholder="Title" name="title" id="title" value="">
-                        </div>
-                        <div class="mt-3">
-                            <label class="form-label" for="genre">Genre</label>
-                            <select name="genre" id="genre" class="form-control">
-                                <option value="">All</option>
-                                <option value="Fiction">Fiction</option>
-                                <option value="Non-fiction">Non-fiction</option>
-                                <option value="Adventurous">Adventurous</option>
-                            </select>
-                        </div>
-                        <div class="mt-3">
-                            <label class="form-label" for="sort">Sort By Rating</label>
-                            <select name="sort" id="sort" class="form-control">
-                                <option value="">None</option>
-                                <option value="rating-asc">High to Low</option>
-                                <option value="rating-des">Low to High</option>
-                            </select>
-                        </div>
-                        <div class="mt-3 d-flex justify-content-evenly">
-                            <a href="/audiobooks" class="card-link btn btn-danger" style="flex: 1;">Reset</a>
-                            <input class="card-link btn btn-success" style="flex: 1;" type="submit" value="Filter & Sort">
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div id="carouselExampleIndicators" class="carousel slide no-padding" data-ride="carosel" >
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="https://m.media-amazon.com/images/S/sonata-images-prod/PV_IN_Shamshera_Launch/524fe23c-55b8-46b9-a764-67a1d6fc5fc2._UR3000,600_SX1500_FMwebp_.jpeg" alt="First slide">
         </div>
-
-        <!-- Audiobooks Column -->
-        <div class="col-md-9">
-            <h1 class="mb-4">All Audiobooks</h1>
-            <div class="row">
-                <% for (let audiobook of audiobooks) { %>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 view" style="background-image: url(<%= audiobook.images[0].url %>);">
-                        <div class="d-flex flex-column h-100 justify-content-between">
-                            <div class="card-body text-white d-flex flex-column">
-                                <% if (audiobook.averageRating !== 'No ratings yet') { %>
-                                <h4 class="ms-auto"><i class="fa-solid fa-flip fa-star" style="color: #ffd700;" aria-hidden="true"></i>
-                                    <%= audiobook.avgRating %> (<%= audiobook.averageRating %>) ⭐
-                                </h4>
-                                <% } else { %>
-                                <h4 class="ms-auto">No ratings yet</h4>
-                                <% } %>
-                                <h1 class="card-title"><%= audiobook.title %></h1>
-                                <div class="card-text">
-                                    <small class="text-muted"><%= audiobook.genre %></small>
-                                    <p class="mt-3">
-                                        <b>Price:</b> $<%= audiobook.price %>
-                                    </p>
-                                    <p class="mt-3 text-justify"><%= audiobook.description %></p>
-                                </div>
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="/audiobooks/<%= audiobook._id %>" class="card-link btn btn-outline-light btn-sm" title="View Audiobook">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% } %>
-            </div>
-
-            <div class="page-header"></div>
-
-            <!-- Pagination -->
-            <div class="pagination-container">
-                <% if (current > 0) { %>
-                    <button class="page-arrow" onclick="scrollPagination('left')">&laquo; Previous</button>
-                <% } %>
-                <div class="pagination-wrapper">
-                    <ul class="pagination">
-                        <% for (let i = 1; i <= pages; i++) { %>
-                        <li class="<%= current === i ? 'active' : '' %>"><a href="?page=<%= i %>"><%= i %></a></li>
-                        <% } %>
-                    </ul>
-                </div>
-                <% if (current < pages) { %>
-                    <!-- <li><a href="?page=<%= current + 1 %>">&raquo;</a></li> -->
-                    <button class="page-arrow" onclick="scrollPagination('right')">Next &raquo;</button>
-                <% } %>
-            </div>
-
+        <div class="carousel-item">
+        <img class="d-block w-100" src="https://m.media-amazon.com/images/S/sonata-images-prod/PV_IN_TVOD_TopGunMaverick/2b8ef907-7906-4b01-b9a1-a658072d7b9a._UR3000,600_SX1500_FMwebp_.jpeg" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+        <img class="d-block w-100" src="https://m.media-amazon.com/images/S/sonata-images-prod/PV_IN_Samaritan_Launch/9b084b6f-a786-4ed4-bd03-4e67ced0dd2d._UR3000,600_SX1500_FMwebp_.jpeg" alt="Third slide">
         </div>
     </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
 
-<style>
-    .view {
-        background-size: cover;
-        background-position: center;
-        color: #fff;
-        border-radius: 15px;
-        overflow: hidden;
-    }
+<br>
+  <!-- Recommended Shows -->
+  <h1 class="title">Recommended Shows</h1>
+<div class="movies-list">
+  <button class="pre-btn"><img src="images/pre.png" alt=""></button>
+  <button class="nxt-btn"><img src="images/nxt.png" alt=""></button>
+  <div class="film-container">
 
-    .view .card-body, .view .card-footer {
-        background: rgba(0, 0, 0, 0.5);
-    }
+    <% let imageCounter1 = 1; %>
+    <% for (let audiobook of audiobooks) { %>
+    <div class="film">
+      <img src="images/poster <%= imageCounter1 %>.png" alt="" class="film-img">
+      <div class="film-body">
+        <h2 class="name"><%= audiobook.title %></h2>
+        <h6 class="des"><%= audiobook.genre %></h6>
+        <p class="des">
+          <b>Price:</b> $<%= audiobook.price %>
+        </p>
+        <!-- <h6 class="des"><%= audiobook.description %></h6> -->
+        <button class="watchlist-btn">
+          <a href="/audiobooks/<%= audiobook._id %>" class="view">View</a>
+        </button>
+      </div>
+    </div>
+    <% imageCounter1 = (imageCounter1 % 10) + 1; %>
+    <% } %>
 
-    .view .card-link {
-        color: #fff;
-        border-color: #fff;
-    }
+  </div>
+</div>
 
-    .view .card-link:hover {
-        background-color: #fff;
-        color: #000;
-    }
+  <!-- Popular Shows -->
+  <h1 class="title">Popular Shows</h1>
+<div class="movies-list">
+  <button class="pre-btn"><img src="images/pre.png" alt=""></button>
+  <button class="nxt-btn"><img src="images/nxt.png" alt=""></button>
+  <div class="film-container">
 
-    .row {
-        margin-bottom: 20px; /* Add margin-bottom to rows */
-    }
+    <% let imageCounter2 = 8; %>
+    <% for (let audiobook of audiobooks) { %>
+    <div class="film">
+      <img src="images/poster <%= imageCounter2 %>.png" alt="" class="film-img">
+      <div class="film-body">
+        <h2 class="name"><%= audiobook.title %></h2>
+        <h6 class="des"><%= audiobook.genre %></h6>
+        <p class="des">
+          <b>Price:</b> $<%= audiobook.price %>
+        </p>
+        <!-- <h6 class="des"><%= audiobook.description %></h6> -->
+        <button class="watchlist-btn">
+          <a href="/audiobooks/<%= audiobook._id %>" class="view">View</a>
+        </button>
+      </div>
+    </div>
+    <% imageCounter2 = (imageCounter2 % 10) + 1; %>
+    <% } %>
 
-    .card {
-        border-radius: 15px;
-    }
+  </div>
+</div>
 
-    .card .card-body {
-        padding: 15px;
-    }
+  
+  <!-- Hind Shows -->
+  <h1 class="title">Hindi Shows</h1>
+<div class="movies-list">
+  <button class="pre-btn"><img src="images/pre.png" alt=""></button>
+  <button class="nxt-btn"><img src="images/nxt.png" alt=""></button>
+  <div class="film-container">
 
-    @media (max-width: 767.98px) {
-        .col-md-3, .col-md-9 {
-            width: 100%;
-        }
-    }
+    <% let imageCounter3 = 5; %>
+    <% for (let audiobook of audiobooks) { %>
+    <div class="film">
+      <img src="images/poster <%= imageCounter3 %>.png" alt="" class="film-img">
+      <div class="film-body">
+        <h2 class="name"><%= audiobook.title %></h2>
+        <h6 class="des"><%= audiobook.genre %></h6>
+        <p class="des">
+          <b>Price:</b> $<%= audiobook.price %>
+        </p>
+        <!-- <h6 class="des"><%= audiobook.description %></h6> -->
+        <button class="watchlist-btn">
+          <a href="/audiobooks/<%= audiobook._id %>" class="view">View</a>
+        </button>
+      </div>
+    </div>
+    <% imageCounter3 = (imageCounter3 % 10) + 1; %>
+    <% } %>
 
-    .page-header {
-    margin: 5px 0;
-    font-size: 1.5em;
-    text-align: center;
-    font-weight: normal;
-    border-bottom: 1px solid #ddd;
-    }
+  </div>
+</div>
 
-    .pagination-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-        text-align: center;
-    }
-    .pagination-wrapper {
-        overflow-x: auto;
-        display: flex;
-        white-space: nowrap;
-        flex-grow: 1;
-    }
 
-    .pagination {
-    display: flex;
-    list-style: none;
-    }
-    .pagination li {
-    flex: 1;
-    margin: 0px 5px;
-    background: #dde1e7;
-    border-radius: 3px;
-    box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
-    }
-    .pagination li a {
-    font-size: 18px;
-    text-decoration: none;
-    color: #4d3252;
-    height: 45px;
-    width: 45px;
-    display: block;
-    line-height: 45px;
-    }
-    /* .pagination li:first-child a {
-    width: 120px;
-    }
-    .pagination li:last-child a {
-    width: 100px;
-    } */
-    .pagination li.active {
-    box-shadow: inset -3px -3px 7px #ffffff73,
-        inset 3px 3px 5px rgba(94, 104, 121, 0.288);
-    }
-    .pagination li.active a {
-    font-size: 17px;
-    color: #6f6cde;
-    }
-    /* .pagination li:first-child {
-    margin: 0 15px 0 0;
-    }
-    .pagination li:last-child {
-    margin: 0 0 0 15px;
-    } */
-    .page-arrow {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        margin: 0 10px;
-        border-radius: 3px;
-        box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
-    }
-    .page-arrow:hover {
-        background-color: #0056b3;
-    }
-</style>
+    <!-- Audiobooks Column -->
+<div class="col-md-9">
+
+    <div class="row">
+        <!-- <% for (let audiobook of audiobooks) { %>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 view" style="background-image: url(<%= audiobook.images[0].url %>);">
+                <div class="d-flex flex-column h-100 justify-content-between">
+                    <div class="card-body text-white d-flex flex-column">
+                        <% if (audiobook.averageRating !== 'No ratings yet') { %>
+                        <h4 class="ms-auto"><i class="fa-solid fa-flip fa-star" style="color: #ffd700;" aria-hidden="true"></i>
+                            <%= audiobook.avgRating %> (<%= audiobook.averageRating %>) ⭐
+                        </h4>
+                        <% } else { %>
+                        <h4 class="ms-auto">No ratings yet</h4>
+                        <% } %>
+                        <h1 class="card-title"><%= audiobook.title %></h1>
+                        <div class="card-text">
+                            <small class="text-muted"><%= audiobook.genre %></small>
+                            <p class="mt-3">
+                                <b>Price:</b> $<%= audiobook.price %>
+                            </p>
+                            <p class="mt-3 text-justify"><%= audiobook.description %></p>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="/audiobooks/<%= audiobook._id %>" class="card-link btn btn-outline-light btn-sm" title="View Audiobook">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <% if (current > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= current - 1 %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% for (let i = 1; i <= pages; i++) { %>
+                    <li class="page-item <%= current === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+
+                <% if (current < pages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= current + 1 %>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    </div> -->
+
+    <div class="page-header">
+
+        <!-- Pagination -->
+        
+    </div>
+    
+</div>
 
 <script>
-    function scrollPagination(direction) {
-        const paginationWrapper = document.querySelector('.pagination-wrapper');
-        const scrollAmount = 100;
-        if (direction === 'left') {
-            paginationWrapper.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-        } else {
-            paginationWrapper.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        }
-    }
+// cards sliders
+
+const watchlistButtons = document.querySelectorAll('.watchlist-btn');
+    
+    watchlistButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        window.location.href = '/watchlist'; // Change this to your actual watchlist URL
+      });
+    });
+
+let cardContainers = document.querySelectorAll(".film-container");
+let preBtns = document.querySelectorAll(".pre-btn");
+let nxtBtns = document.querySelectorAll(".nxt-btn");
+
+// Function to scroll the card container to the left
+function scrollLeft(container) {
+  container.scrollLeft -= container.clientWidth;
+}
+
+// Function to scroll the card container to the right
+function scrollRight(container) {
+  container.scrollLeft += container.clientWidth;
+}
+
+// Attach click event listeners to previous and next buttons
+preBtns.forEach((preBtn, index) => {
+  preBtn.addEventListener("click", () => {
+    scrollLeft(cardContainers[index]);
+  });
+});
+
+nxtBtns.forEach((nxtBtn, index) => {
+  nxtBtn.addEventListener("click", () => {
+    scrollRight(cardContainers[index]);
+  });
+});
+
 </script>
 
+<style>
+
+.watchlist-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+
+}
+
+.film-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  padding: 20px 0;
+  overflow-x: hidden;
+  margin-top: 80px;
+}
+
+.film {
+  display: flex;
+  width: 92%;
+  height: 100%;
+  position: relative;
+  margin: auto;
+  overflow-x: visible;
+  scroll-behavior: smooth;
+}
+
+.slider {
+  flex: 0 0 auto;
+  margin-right: 30px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  transition: 1s;
+  overflow: hidden;
+}
+
+.slider img {
+  width: 70%;
+  min-height: 100%;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+}
+
+.slide-content {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(to right, #030b17 80%, #0c111b00);
+  color: #fff;
+}
+
+.slide-content h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 100px;
+  padding-left: 50px;
+  font-family: sans-serif;
+  text-shadow: -6px 6px black;
+}
+
+.slide-content p {
+  font-size: 20px;
+  font-weight: 500;
+  padding-left: 50px;
+  margin-top: 20px;
+  opacity: 0.8;
+  font-family: sans-serif;
+  text-shadow: -6px 6px black;
+}
+
+.slide-content button {
+  background: #1f80e0;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-left: 50px;
+  margin-top: 20px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.slide-content button:hover {
+  background: #1f80e0;
+  opacity: 0.8;
+}
+
+.moive-title {
+  padding-left: 50px;
+  text-transform: capitalize;
+  margin-top: 40px;
+  position: absolute;
+  bottom: 20px; /* Adjust this value to position the text where you want it */
+  left: 0;
+  right: 0;
+  text-align: center; /* Center the text horizontally */
+}
+
+.moive-title h1 {
+  font-size: 30px;
+  font-weight: 700;
+  font-family: sans-serif;
+  text-shadow: -6px 6px black;
+}
+
+.movie-des {
+  width: 80%;
+  line-height: 30px;
+  padding-left: 50px;
+  margin-top: 30px;
+  opacity: 0.8;
+  font-weight: 500;
+  font-family: sans-serif;
+}
+
+.movie-des p {
+  font-size: 10px;
+  font-weight: 400;
+  padding-left: 50px;
+  margin-top: 20px;
+  opacity: 0.8;
+  font-family: sans-serif;
+  text-shadow: -6px 6px black;
+}
+
+.video-film-container {
+  position: relative;
+  width: 92%;
+  margin: auto;
+  height: 10vw;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.video-film {
+  position: relative;
+  min-width: calc(100% / 5 - 10px);
+  width: calc(100% / 5 - 10px);
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #030b17;
+}
+
+#play-btn,
+.watchlist-btn {
+  position: relative;
+  width: 100%;
+  text-transform: capitalize;
+  background: none;
+  border: none;
+  font-weight: 500;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 5px 0;
+  cursor: pointer;
+  padding: 10px 5px -5px;
+  border-radius: 5px;
+}
+
+.view-link, .view {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    /* border: 1px solid white; */
+    padding: 5px 10px;
+    /* border-radius: 5px; */
+  }
+
+  .view-link:hover, .view:hover {
+    /* background-color: white; */
+    color: black;
+  }
+
+.film-video,
+.video-film-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.film-video {
+  position: absolute;
+}
+
+.video-film:hover .video-film-image {
+  display: none;
+}
+
+.video-film:hover .film-video {
+  display: block;
+}
+
+.video-film:hover .film-body {
+  opacity: 1;
+}
+
+.film-body {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(4, 8, 15, 0), #192133 90%);
+  padding: 10px;
+  transition: 0.5s;
+}
+
+.title {
+  color: #fff;
+  opacity: 0.9;
+  padding-left: 4%;
+  text-transform: capitalize;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.movies-list-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.movies-list {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  margin: 10px 0 20px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  padding-left: 10px;
+}
+
+.movies-list::-webkit-scrollbar-track {
+  background-color: #0c111b;
+}
+
+.movies-list::-webkit-scrollbar {
+  display: none;
+}
+
+.film-container {
+  position: relative;
+  width: 92%;
+  padding-left: 10px;
+  margin: auto;
+  height: 220px;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+}
+
+.film-container::-webkit-scrollbar-track {
+  background-color: #0c111b;
+}
+
+.film-container::-webkit-scrollbar {
+  display: none;
+}
+
+.film {
+  position: relative;
+  min-width: 150px;
+  height: 200px;
+  width: 150px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #030b17;
+  margin-right: 10px;
+  transition: 0.5s;
+}
+
+.film-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.film:hover {
+  transform: scale(1.1);
+}
+
+.film:hover .film-body {
+  opacity: 1;
+}
+
+.film-body {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(4, 8, 15, 0), #192133 90%);
+  padding: 10px;
+  transition: 0.5s;
+}
+
+.name {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-top: 30%;
+}
+
+.des {
+  color: #fff;
+  opacity: 0.8;
+  margin: 5px 0;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.rating {
+  color: #fff;
+  opacity: 0.8;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.watchlist-btn {
+  position: relative;
+  width: 100%;
+  text-transform: capitalize;
+  background: none;
+  border: none;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 5px 0;
+  cursor: pointer;
+  padding: 10px 5px;
+  border-radius: 5px;
+}
+
+.watchlist-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  height: 35px;
+  width: 35px;
+  /* background-image: url(images/add.png); */
+  background-size: cover;
+  transform: scale(0.4);
+}
+
+.watchlist-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pre-btn,
+.nxt-btn {
+  position: absolute;
+  top: 0;
+  width: 5%;
+  height: 100%;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: 0.5s;
+}
+
+.pre-btn {
+  left: 0;
+  background: linear-gradient(to right, #0c111b 0%, #0c111b00);
+}
+
+.nxt-btn {
+  right: 0;
+  background: linear-gradient(to left, #0c111b 0%, #0c111b00);
+}
+
+.pre-btn img,
+.nxt-btn img {
+  width: 15px;
+  height: 20px;
+  opacity: 0;
+}
+
+.pre-btn:hover img,
+.nxt-btn:hover img {
+  opacity: 1;
+}
+
+.pre-btn:hover,
+.nxt-btn:hover {
+  background: linear-gradient(to left, #0c111b 0%, #0c111b80);
+}
+
+.pre-btn:active,
+.nxt-btn:active {
+  background: linear-gradient(to left, #0c111b 0%, #0c111b80);
+}
+
+.pre-btn:active img,
+.nxt-btn:active img {
+  opacity: 1;
+}
+
+
+
+
+
+
+/* card -- movie  card-img -- movie-img  card-body -- movie-body */
+</style>

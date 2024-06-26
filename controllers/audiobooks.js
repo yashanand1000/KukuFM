@@ -2,7 +2,7 @@ const Audiobook = require('../models/audiobook');
 const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
-    console.log(req.query);
+    //console.log(req.query);
     const { genre, title, sort, page = 1, limit = 15 } = req.query;
 
     const filterOptions = {};
@@ -27,7 +27,7 @@ module.exports.index = async (req, res) => {
 
     // Calculate average rating for each audiobook
     audiobooks = audiobooks.map(audiobook => {
-        console.log('Reviews for', audiobook.title, ':', audiobook.reviews);
+        //console.log('Reviews for', audiobook.title, ':', audiobook.reviews);
         const totalRatings = audiobook.reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
         const averageRating = audiobook.reviews.length ? totalRatings / audiobook.reviews.length : 0;
         return { ...audiobook.toObject(), averageRating };
@@ -44,7 +44,7 @@ module.exports.index = async (req, res) => {
             .sort((a, b) => b.averageRating - a.averageRating);
     }
 
-    console.log(audiobooks);
+    //console.log(audiobooks);
     res.render('audiobooks/index', {
         audiobooks,
         current: parseInt(page),
@@ -66,7 +66,7 @@ module.exports.createAudiobook = async (req, res, next) => {
     audiobook.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     audiobook.author = req.user._id;
     await audiobook.save();
-    console.log(audiobook);
+    //console.log(audiobook);
     req.flash('success', 'Successfully made a new audiobook!');
     res.redirect(`/audiobooks/${audiobook._id}`);
 };
@@ -78,11 +78,13 @@ module.exports.showAudiobook = async (req, res) => {
             path: 'author'
         }
     }).populate('author');
+    const imageUrl = decodeURIComponent(req.query);
+    console.log(imageUrl)
     if (!audiobook) {
         req.flash('error', 'Cannot find that audiobook!');
         return res.redirect('/audiobooks');
     }
-    res.render('audiobooks/show', { audiobook });
+    res.render('audiobooks/show', { audiobook, imageUrl });
 };
 
 module.exports.renderEditForm = async (req, res) => {
