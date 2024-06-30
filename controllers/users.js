@@ -4,6 +4,11 @@ const crypto = require('crypto');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// including the BASE_URL
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');
@@ -21,7 +26,7 @@ module.exports.register = async (req, res, next) => {
         await registeredUser.save();
 
         // Send verification email
-        const verificationUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
+        const verificationUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;;
         const msg = {
             to: email,
             from: 'yashanand1000@gmail.com', // Replace with your verified sender email
