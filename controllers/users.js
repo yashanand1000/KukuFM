@@ -26,7 +26,8 @@ module.exports.register = async (req, res, next) => {
         await registeredUser.save();
 
         // Send verification email
-        const verificationUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;;
+        const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+        const verificationUrl = `${baseUrl}/verify-email?token=${verificationToken}`;
         const msg = {
             to: email,
             from: 'yashanand1000@gmail.com', // Replace with your verified sender email
