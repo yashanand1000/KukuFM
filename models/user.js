@@ -7,7 +7,12 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationToken: String
 });
 
 UserSchema.plugin(passportLocalMongoose);
