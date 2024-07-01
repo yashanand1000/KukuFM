@@ -93,6 +93,13 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     async function buySubscription() {
+        const isLoggedIn = <%= currentUser ? 'true' : 'false' %>;
+
+        if (!isLoggedIn) {
+            window.location.href = '/login';
+            req.flashResponse()
+            return;
+        }
         const amountInRupees = 1; // Set the amount in rupees
         const amountInPaise = amountInRupees * 100; // Convert to the smallest currency unit (paise)
         
@@ -110,6 +117,10 @@
             });
 
             if (!response.ok) {
+                if (response.status === 401) { // User is not authenticated
+                    window.location.href = '/login';
+                    return;
+                }
                 throw new Error('Failed to create order');
             }
 

@@ -59,4 +59,5 @@ module.exports.emailVerified = (req, res, next) => {
     }
     req.flash('error', 'You need to verify your email first.');
     res.redirect('/login');
+    
 };
