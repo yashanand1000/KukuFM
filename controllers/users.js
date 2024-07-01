@@ -4,11 +4,6 @@ const crypto = require('crypto');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// including the BASE_URL
-if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-}
-
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');

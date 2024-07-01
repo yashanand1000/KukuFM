@@ -18,6 +18,8 @@ const userRoutes = require('./routes/users');
 const audiobooksRoutes = require('./routes/audiobooks');
 const reviewRoutes = require('./routes/reviews');
 const MongoDBStore = require('connect-mongo');
+const paymentRoutes = require('./routes/payment');
+
 
 const dbUrl = process.env.DB_URL ||'mongodb://0.0.0.0:27017/audiobook-app';
 const secret = 'thisshouldbeabettersecret'
@@ -93,6 +95,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/audiobooks', audiobooksRoutes)
 app.use('/audiobooks/:id/reviews', reviewRoutes)
+app.use('/payment', paymentRoutes);
 
 
 app.get('/', (req, res) => {

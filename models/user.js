@@ -12,7 +12,12 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    verificationToken: String
+    verificationToken: String,
+    
+    hasPaid: {
+        type: Boolean,
+        default: false
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);

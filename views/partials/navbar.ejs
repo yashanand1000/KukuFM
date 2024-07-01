@@ -24,19 +24,13 @@
             </div>
 
             <div class="navbar-nav ml-auto mr-auto">
-
                 <div class="nav-item search-item">
-
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
-
                     <input type="text" class="search-input" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light search-button" type="button">
-                        
-                    </button>
+                    <button class="btn btn-outline-light search-button" type="button"></button>
                 </div>    
-                
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-person" viewBox="0 0 16 16">
@@ -44,6 +38,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarFilterDropdown">
+                        <button class="dropdown-item text-white" onclick="buySubscription()">Buy Subscription</button>
                         <% if(!currentUser) {%>
                             <a class="dropdown-item text-white" href="/login" data-genre="">Login</a>
                             <a class="dropdown-item text-white" href="/register" data-genre="Register">Register</a>
@@ -93,19 +88,102 @@
         background-color: #232F3E; /* Change this color as needed */
         color: #ffffff;
     }
-
-    
 </style>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    async function buySubscription() {
+        const amountInRupees = 1; // Set the amount in rupees
+        const amountInPaise = amountInRupees * 100; // Convert to the smallest currency unit (paise)
+        
+        try {
+            const response = await fetch('/payment/createOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amountInPaise, // amount in the smallest currency unit
+                    currency: 'INR',
+                    receipt: 'receipt_id_12345'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create order');
+            }
+
+            const order = await response.json();
+
+            const options = {
+                "key": "<%= process.env.RAZORPAY_KEY_ID %>", // Razorpay key ID from environment variables
+                "amount": order.amount,
+                "currency": order.currency,
+                "name": "KukuFM",
+                "description": "Subscription Payment",
+                "order_id": order.id,
+                "handler": async function (response) {
+                    const verificationResponse = await fetch('/payment/verifyPayment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(response)
+                    });
+
+                    if (verificationResponse.ok) {
+                        const flashResponse = await fetch('/payment/flashMessage', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ message: 'Payment successful!' })
+                        });
+
+                        if (!flashResponse.ok) {
+                            throw new Error('Failed to send flash message');
+                        }
+                    } else {
+                        throw new Error('Payment verification failed');
+                    }
+                },
+                "prefill": {
+                    "name": "Yash Anand",
+                    "email": "yashanand1000@gmail.com"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            console.error('Error during buySubscription:', error);
+            const flashResponse = await fetch('/payment/flashMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: 'Oops, something went wrong while creating the order.' })
+            });
+
+            if (!flashResponse.ok) {
+                console.error('Failed to send flash message:', error);
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.dropdown-item').forEach(function(item) {
+        // Event listener for genre filter
+        document.querySelectorAll('.dropdown-item[data-genre]').forEach(function(item) {
             item.addEventListener('click', function() {
                 var genre = this.getAttribute('data-genre');
                 window.location.href = '/audiobooks?genre=' + genre;
             });
         });
 
+        // Event listener for search functionality
         document.querySelector('.search-input').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 performSearch();
@@ -114,11 +192,9 @@
 
         function performSearch() {
             const searchPhrase = document.querySelector('.search-input').value.trim();
-            //console.log(searchPhrase);
             if (searchPhrase.length > 0) {
-                window.location.href = `audiobooks?title=${encodeURIComponent(searchPhrase)}`;
+                window.location.href = `/audiobooks?title=${encodeURIComponent(searchPhrase)}`;
             }
         }
-
     });
 </script>
