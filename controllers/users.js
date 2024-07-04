@@ -79,11 +79,14 @@ module.exports.renderLogin = (req, res) => {
     res.render('users/login');
 }
 
-module.exports.login = (req, res) => {
+module.exports.login = async (req, res) => {    
+    // res.render('paritals/navbar', { message: req.flash('error') });  
     req.flash('success', 'welcome back!');
     const redirectUrl = req.session.returnTo || '/audiobooks';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+        
+    
 }
 
 module.exports.logout = function(req, res, next) {

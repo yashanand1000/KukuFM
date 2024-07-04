@@ -10,10 +10,12 @@ const razorpay = new Razorpay({
 
 module.exports.createOrder = async (req, res) => {
     const { amount, currency, receipt } = req.body;
+    
     //console.log(currency);
     try {
         const order = await razorpay.orders.create({ amount, currency, receipt });
         res.json(order);
+        res.render('partials/navbar', { currentUser });
     } catch (error) {
         res.status(500).send({ error: 'Error creating order' });
     }

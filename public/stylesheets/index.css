@@ -1,0 +1,420 @@
+.watchlist-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+
+}
+
+.film-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    padding: 20px 0;
+    overflow-x: hidden;
+    margin-top: 80px;
+}
+
+.film {
+    display: flex;
+    width: 92%;
+    height: 100%;
+    position: relative;
+    margin: auto;
+    overflow-x: visible;
+    scroll-behavior: smooth;
+}
+
+.slider {
+    flex: 0 0 auto;
+    margin-right: 30px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    transition: 1s;
+    overflow: hidden;
+}
+
+.slider img {
+    width: 70%;
+    min-height: 100%;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+}
+
+.slide-content {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, #030b17 80%, #0c111b00);
+    color: #fff;
+}
+
+.slide-content h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-top: 100px;
+    padding-left: 50px;
+    font-family: sans-serif;
+    text-shadow: -6px 6px black;
+}
+
+.slide-content p {
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 50px;
+    margin-top: 20px;
+    opacity: 0.8;
+    font-family: sans-serif;
+    text-shadow: -6px 6px black;
+}
+
+.slide-content button {
+    background: #1f80e0;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: 50px;
+    margin-top: 20px;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.slide-content button:hover {
+    background: #1f80e0;
+    opacity: 0.8;
+}
+
+.moive-title {
+    padding-left: 50px;
+    text-transform: capitalize;
+    margin-top: 40px;
+    position: absolute;
+    bottom: 20px;
+    /* Adjust this value to position the text where you want it */
+    left: 0;
+    right: 0;
+    text-align: center;
+    /* Center the text horizontally */
+}
+
+.moive-title h1 {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: sans-serif;
+    text-shadow: -6px 6px black;
+}
+
+.movie-des {
+    width: 80%;
+    line-height: 30px;
+    padding-left: 50px;
+    margin-top: 30px;
+    opacity: 0.8;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+
+.movie-des p {
+    font-size: 10px;
+    font-weight: 400;
+    padding-left: 50px;
+    margin-top: 20px;
+    opacity: 0.8;
+    font-family: sans-serif;
+    text-shadow: -6px 6px black;
+}
+
+.video-film-container {
+    position: relative;
+    width: 92%;
+    margin: auto;
+    height: 10vw;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.video-film {
+    position: relative;
+    min-width: calc(100% / 5 - 10px);
+    width: calc(100% / 5 - 10px);
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #030b17;
+}
+
+#play-btn,
+.watchlist-btn {
+    position: relative;
+    width: 100%;
+    text-transform: capitalize;
+    background: none;
+    border: none;
+    font-weight: 500;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 10px 5px -5px;
+    border-radius: 5px;
+}
+
+.view-link,
+.view {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    /* border: 1px solid white; */
+    padding: 5px 10px;
+    /* border-radius: 5px; */
+}
+
+.view-link:hover,
+.view:hover {
+    /* background-color: white; */
+    color: black;
+}
+
+.film-video,
+.video-film-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.film-video {
+    position: absolute;
+}
+
+.video-film:hover .video-film-image {
+    display: none;
+}
+
+.video-film:hover .film-video {
+    display: block;
+}
+
+.video-film:hover .film-body {
+    opacity: 1;
+}
+
+.film-body {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(4, 8, 15, 0), #192133 90%);
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.title {
+    color: #fff;
+    opacity: 0.9;
+    padding-left: 4%;
+    text-transform: capitalize;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.movies-list-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.movies-list {
+    width: 100%;
+    height: 220px;
+    position: relative;
+    margin: 10px 0 20px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    scroll-behavior: smooth;
+    padding-left: 10px;
+}
+
+.movies-list::-webkit-scrollbar-track {
+    background-color: #0c111b;
+}
+
+.movies-list::-webkit-scrollbar {
+    display: none;
+}
+
+.film-container {
+    position: relative;
+    width: 92%;
+    padding-left: 10px;
+    margin: auto;
+    height: 220px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-behavior: smooth;
+}
+
+.film-container::-webkit-scrollbar-track {
+    background-color: #0c111b;
+}
+
+.film-container::-webkit-scrollbar {
+    display: none;
+}
+
+.film {
+    position: relative;
+    min-width: 150px;
+    height: 200px;
+    width: 150px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #030b17;
+    margin-right: 10px;
+    transition: 0.5s;
+}
+
+.film-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.film:hover {
+    transform: scale(1.1);
+}
+
+.film:hover .film-body {
+    opacity: 1;
+}
+
+.film-body {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(4, 8, 15, 0), #192133 90%);
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-top: 30%;
+}
+
+.des {
+    color: #fff;
+    opacity: 0.8;
+    margin: 5px 0;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.rating {
+    color: #fff;
+    opacity: 0.8;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.watchlist-btn {
+    position: relative;
+    width: 100%;
+    text-transform: capitalize;
+    background: none;
+    border: none;
+    font-weight: 500;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+
+.watchlist-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -5px;
+    height: 35px;
+    width: 35px;
+    /* background-image: url(images/add.png); */
+    background-size: cover;
+    transform: scale(0.4);
+}
+
+.watchlist-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.pre-btn,
+.nxt-btn {
+    position: absolute;
+    top: 0;
+    width: 5%;
+    height: 100%;
+    z-index: 2;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: 0.5s;
+}
+
+.pre-btn {
+    left: 0;
+    background: linear-gradient(to right, #0c111b 0%, #0c111b00);
+}
+
+.nxt-btn {
+    right: 0;
+    background: linear-gradient(to left, #0c111b 0%, #0c111b00);
+}
+
+.pre-btn img,
+.nxt-btn img {
+    width: 15px;
+    height: 20px;
+    opacity: 0;
+}
+
+.pre-btn:hover img,
+.nxt-btn:hover img {
+    opacity: 1;
+}
+
+.pre-btn:hover,
+.nxt-btn:hover {
+    background: linear-gradient(to left, #0c111b 0%, #0c111b80);
+}
+
+.pre-btn:active,
+.nxt-btn:active {
+    background: linear-gradient(to left, #0c111b 0%, #0c111b80);
+}
+
+.pre-btn:active img,
+.nxt-btn:active img {
+    opacity: 1;
+}

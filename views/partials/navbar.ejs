@@ -29,7 +29,7 @@
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
                     <input type="text" class="search-input" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light search-button" type="button"></button>
+                    <!-- <button class="btn btn-outline-light search-button" type="button"></button> -->
                 </div>    
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,44 +51,6 @@
         </div>
     </div>
 </nav>
-
-<style>
-    .search-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .search-input {
-        display: none;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: white;
-        transition: width 0.5s ease-in-out;
-        width: 0;
-    }
-
-    .search-button {
-        border: none;
-        background: transparent;
-        color: white;
-    }
-
-    .search-button:focus ~ .search-input,
-    .search-input:focus,
-    .search-input:valid {
-        display: block;
-        width: 200px;
-        border-bottom: 1px solid white;
-        padding: 2px 5px;
-        margin-left: 5px;
-    }
-
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #232F3E; /* Change this color as needed */
-        color: #ffffff;
-    }
-</style>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>

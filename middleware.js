@@ -2,14 +2,29 @@ const { audiobookSchema, reviewSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Audiobook = require('./models/audiobook');
 const Review = require('./models/review');
+const User = require('./models/user')
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
+        console.log(req.session.returnTo)
         req.flash('error', 'You must be signed in first!');
+        
         return res.redirect('/login');
     }
     next();
+}
+
+module.exports.emailVerified = async(req, res, next) => {
+    const user = await User.findOne({ username: req.body.username });
+    
+    
+    if (user.emailVerified) {
+        return next();
+    }
+    req.flash('error', 'You need to verify your email first. Please check your email inbox which is sent during registration');
+    res.redirect('/login');
+    
 }
 
 module.exports.validateAudiobook = (req, res, next) => {
@@ -52,12 +67,3 @@ module.exports.validateReview = (req, res, next) => {
         next();
     }
 }
-
-module.exports.emailVerified = (req, res, next) => {
-    if (req.isAuthenticated() && req.user.emailVerified) {
-        return next();
-    }
-    req.flash('error', 'You need to verify your email first.');
-    res.redirect('/login');
-    
-};

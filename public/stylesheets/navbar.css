@@ -1,0 +1,35 @@
+.search-item {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    display: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    transition: width 0.5s ease-in-out;
+    width: 0;
+}
+
+.search-button {
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+.search-button:focus ~ .search-input,
+.search-input:focus,
+.search-input:valid {
+    display: block;
+    width: 200px;
+    border-bottom: 1px solid white;
+    padding: 2px 5px;
+    margin-left: 5px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #232F3E; /* Change this color as needed */
+    color: #ffffff;
+}
